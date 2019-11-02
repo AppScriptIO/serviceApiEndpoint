@@ -36,3 +36,5 @@ export async function initialize({ targetProjectConfig, port = serviceConfig.por
   // create http server
   await createHttpServer({ label: serviceConfig.serviceName, port: port, middlewareArray })
 }
+
+export * as apiEndpoint from './service/apiEndpoint'
