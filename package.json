@@ -1,0 +1,11 @@
+{
+	"name": "@dependency/serviceApiEndpoint",
+	"main": "./script.js",
+	"version": "1.0.0",
+	"scripts": {},
+	"dependencies": {
+		"koa-compose": "*",
+		"koa-router": "*"
+	},
+	"devDependencies": {}
+}
