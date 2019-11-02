@@ -1,7 +1,8 @@
-import { initializeGraph } from '../utility/graphInitialization.js'
-import * as graphData from '../../resource/graphData.json'
+"use strict";var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");Object.defineProperty(exports, "__esModule", { value: true });exports.graphMiddleware = graphMiddleware;var _graphInitialization = require("../utility/graphInitialization.js");
+var graphData = _interopRequireWildcard(require("../../resource/graphData.json"));
 
-export async function graphMiddleware({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
-  let { createGraphMiddleware } = await initializeGraph({ targetProjectConfig, graphDataArray: [graphData] })
-  return createGraphMiddleware({ entrypointKey })
+async function graphMiddleware({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
+  let { createGraphMiddleware } = await (0, _graphInitialization.initializeGraph)({ targetProjectConfig, graphDataArray: [graphData] });
+  return createGraphMiddleware({ entrypointKey });
 }
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9taWRkbGV3YXJlL2dyYXBoTWlkZGxld2FyZS5qcyJdLCJuYW1lcyI6WyJncmFwaE1pZGRsZXdhcmUiLCJ0YXJnZXRQcm9qZWN0Q29uZmlnIiwiZW50cnlwb2ludEtleSIsImNyZWF0ZUdyYXBoTWlkZGxld2FyZSIsImdyYXBoRGF0YUFycmF5IiwiZ3JhcGhEYXRhIl0sIm1hcHBpbmdzIjoiNE1BQUE7QUFDQTs7QUFFTyxlQUFlQSxlQUFmLENBQStCLEVBQUVDLG1CQUFGLEVBQXVCQyxhQUFhLEdBQUcsc0NBQXZDLEVBQS9CLEVBQWdIO0FBQ3JILE1BQUksRUFBRUMscUJBQUYsS0FBNEIsTUFBTSwwQ0FBZ0IsRUFBRUYsbUJBQUYsRUFBdUJHLGNBQWMsRUFBRSxDQUFDQyxTQUFELENBQXZDLEVBQWhCLENBQXRDO0FBQ0EsU0FBT0YscUJBQXFCLENBQUMsRUFBRUQsYUFBRixFQUFELENBQTVCO0FBQ0QiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBpbml0aWFsaXplR3JhcGggfSBmcm9tICcuLi91dGlsaXR5L2dyYXBoSW5pdGlhbGl6YXRpb24uanMnXG5pbXBvcnQgKiBhcyBncmFwaERhdGEgZnJvbSAnLi4vLi4vcmVzb3VyY2UvZ3JhcGhEYXRhLmpzb24nXG5cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBncmFwaE1pZGRsZXdhcmUoeyB0YXJnZXRQcm9qZWN0Q29uZmlnLCBlbnRyeXBvaW50S2V5ID0gJzA1YmQ1NWVkLTIxMmMtNDYwOS04Y2FmLWU0NjRhN2NjZWI3NCcgfSkge1xuICBsZXQgeyBjcmVhdGVHcmFwaE1pZGRsZXdhcmUgfSA9IGF3YWl0IGluaXRpYWxpemVHcmFwaCh7IHRhcmdldFByb2plY3RDb25maWcsIGdyYXBoRGF0YUFycmF5OiBbZ3JhcGhEYXRhXSB9KVxuICByZXR1cm4gY3JlYXRlR3JhcGhNaWRkbGV3YXJlKHsgZW50cnlwb2ludEtleSB9KVxufVxuIl19

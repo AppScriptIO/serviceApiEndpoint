@@ -1,40 +1,39 @@
-import { createHttpServer } from '../../utility/server.js'
-import { graphMiddleware } from './middleware/graphMiddleware.js'
-import serviceConfig from './configuration/configuration.js'
+"use strict";var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports.initialize = initialize;exports.apiEndpoint = void 0;var _server = require("../../utility/server.js");
+var _graphMiddleware = require("./middleware/graphMiddleware.js");
+var _configuration = _interopRequireDefault(require("./configuration/configuration.js"));var _apiEndpoint = _interopRequireWildcard(require("./service/apiEndpoint"));exports.apiEndpoint = _apiEndpoint;
 
-/**
-Schema: 
-fieldname: "personalInfo" --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'personalInfo'})
 
-fieldName: "ui" --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'ui'})
-  fieldName: 'title' --> database/resolver/extractFieldFromParentDataset.js
 
-fieldName: "article",  --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'article'})
-  fieldName: 'title' --> database/resolver/extractFieldFromParentDataset.js
-  fieldName: 'paragraph' --> database/resolver/extractFieldFromParentDataset.js
-*/
 
-/**
-Api engpoint middleware graph: 
-> Request body parser.
 
-/content --> apiContentMessage middleware
-/content/* --> apiSchema.middleware.js
-*/
-export async function initialize({ targetProjectConfig, port = serviceConfig.port }) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async function initialize({ targetProjectConfig, port = _configuration.default.port }) {
   let middlewareArray = [
-    async (context, next) => {
-      context.set('connection', 'keep-alive')
-      context.set('Access-Control-Allow-Origin', '*')
-      await context.req.setTimeout(30000)
-      await next()
-    },
-    await graphMiddleware({ targetProjectConfig }),
-    async (context, next) => console.log('last middleware reached.'),
-  ]
+  async (context, next) => {
+    context.set('connection', 'keep-alive');
+    context.set('Access-Control-Allow-Origin', '*');
+    await context.req.setTimeout(30000);
+    await next();
+  },
+  await (0, _graphMiddleware.graphMiddleware)({ targetProjectConfig }),
+  async (context, next) => console.log('last middleware reached.')];
 
-  // create http server
-  await createHttpServer({ label: serviceConfig.serviceName, port: port, middlewareArray })
+
+
+  await (0, _server.createHttpServer)({ label: _configuration.default.serviceName, port: port, middlewareArray });
 }
-
-export * as apiEndpoint from './service/apiEndpoint'
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL3NvdXJjZS9zY3JpcHQuanMiXSwibmFtZXMiOlsiaW5pdGlhbGl6ZSIsInRhcmdldFByb2plY3RDb25maWciLCJwb3J0Iiwic2VydmljZUNvbmZpZyIsIm1pZGRsZXdhcmVBcnJheSIsImNvbnRleHQiLCJuZXh0Iiwic2V0IiwicmVxIiwic2V0VGltZW91dCIsImNvbnNvbGUiLCJsb2ciLCJsYWJlbCIsInNlcnZpY2VOYW1lIl0sIm1hcHBpbmdzIjoib1RBQUE7QUFDQTtBQUNBLHlGOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7QUFxQk8sZUFBZUEsVUFBZixDQUEwQixFQUFFQyxtQkFBRixFQUF1QkMsSUFBSSxHQUFHQyx1QkFBY0QsSUFBNUMsRUFBMUIsRUFBOEU7QUFDbkYsTUFBSUUsZUFBZSxHQUFHO0FBQ3BCLFNBQU9DLE9BQVAsRUFBZ0JDLElBQWhCLEtBQXlCO0FBQ3ZCRCxJQUFBQSxPQUFPLENBQUNFLEdBQVIsQ0FBWSxZQUFaLEVBQTBCLFlBQTFCO0FBQ0FGLElBQUFBLE9BQU8sQ0FBQ0UsR0FBUixDQUFZLDZCQUFaLEVBQTJDLEdBQTNDO0FBQ0EsVUFBTUYsT0FBTyxDQUFDRyxHQUFSLENBQVlDLFVBQVosQ0FBdUIsS0FBdkIsQ0FBTjtBQUNBLFVBQU1ILElBQUksRUFBVjtBQUNELEdBTm1CO0FBT3BCLFFBQU0sc0NBQWdCLEVBQUVMLG1CQUFGLEVBQWhCLENBUGM7QUFRcEIsU0FBT0ksT0FBUCxFQUFnQkMsSUFBaEIsS0FBeUJJLE9BQU8sQ0FBQ0MsR0FBUixDQUFZLDBCQUFaLENBUkwsQ0FBdEI7Ozs7QUFZQSxRQUFNLDhCQUFpQixFQUFFQyxLQUFLLEVBQUVULHVCQUFjVSxXQUF2QixFQUFvQ1gsSUFBSSxFQUFFQSxJQUExQyxFQUFnREUsZUFBaEQsRUFBakIsQ0FBTjtBQUNEIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgY3JlYXRlSHR0cFNlcnZlciB9IGZyb20gJy4uLy4uL3V0aWxpdHkvc2VydmVyLmpzJ1xuaW1wb3J0IHsgZ3JhcGhNaWRkbGV3YXJlIH0gZnJvbSAnLi9taWRkbGV3YXJlL2dyYXBoTWlkZGxld2FyZS5qcydcbmltcG9ydCBzZXJ2aWNlQ29uZmlnIGZyb20gJy4vY29uZmlndXJhdGlvbi9jb25maWd1cmF0aW9uLmpzJ1xuXG4vKipcblNjaGVtYTogXG5maWVsZG5hbWU6IFwicGVyc29uYWxJbmZvXCIgLS0+IGRhdGFiYXNlL3Jlc29sdmVyL2FnZ3JlZ2F0aW9uUGF0dGVyblJlc29sdmVyLmpzKHtkYXRhYmFzZVRhYmVsOiAncGVyc29uYWxJbmZvJ30pXG5cbmZpZWxkTmFtZTogXCJ1aVwiIC0tPiBkYXRhYmFzZS9yZXNvbHZlci9hZ2dyZWdhdGlvblBhdHRlcm5SZXNvbHZlci5qcyh7ZGF0YWJhc2VUYWJlbDogJ3VpJ30pXG4gIGZpZWxkTmFtZTogJ3RpdGxlJyAtLT4gZGF0YWJhc2UvcmVzb2x2ZXIvZXh0cmFjdEZpZWxkRnJvbVBhcmVudERhdGFzZXQuanNcblxuZmllbGROYW1lOiBcImFydGljbGVcIiwgIC0tPiBkYXRhYmFzZS9yZXNvbHZlci9hZ2dyZWdhdGlvblBhdHRlcm5SZXNvbHZlci5qcyh7ZGF0YWJhc2VUYWJlbDogJ2FydGljbGUnfSlcbiAgZmllbGROYW1lOiAndGl0bGUnIC0tPiBkYXRhYmFzZS9yZXNvbHZlci9leHRyYWN0RmllbGRGcm9tUGFyZW50RGF0YXNldC5qc1xuICBmaWVsZE5hbWU6ICdwYXJhZ3JhcGgnIC0tPiBkYXRhYmFzZS9yZXNvbHZlci9leHRyYWN0RmllbGRGcm9tUGFyZW50RGF0YXNldC5qc1xuKi9cblxuLyoqXG5BcGkgZW5ncG9pbnQgbWlkZGxld2FyZSBncmFwaDogXG4+IFJlcXVlc3QgYm9keSBwYXJzZXIuXG5cbi9jb250ZW50IC0tPiBhcGlDb250ZW50TWVzc2FnZSBtaWRkbGV3YXJlXG4vY29udGVudC8qIC0tPiBhcGlTY2hlbWEubWlkZGxld2FyZS5qc1xuKi9cbmV4cG9ydCBhc3luYyBmdW5jdGlvbiBpbml0aWFsaXplKHsgdGFyZ2V0UHJvamVjdENvbmZpZywgcG9ydCA9IHNlcnZpY2VDb25maWcucG9ydCB9KSB7XG4gIGxldCBtaWRkbGV3YXJlQXJyYXkgPSBbXG4gICAgYXN5bmMgKGNvbnRleHQsIG5leHQpID0+IHtcbiAgICAgIGNvbnRleHQuc2V0KCdjb25uZWN0aW9uJywgJ2tlZXAtYWxpdmUnKVxuICAgICAgY29udGV4dC5zZXQoJ0FjY2Vzcy1Db250cm9sLUFsbG93LU9yaWdpbicsICcqJylcbiAgICAgIGF3YWl0IGNvbnRleHQucmVxLnNldFRpbWVvdXQoMzAwMDApXG4gICAgICBhd2FpdCBuZXh0KClcbiAgICB9LFxuICAgIGF3YWl0IGdyYXBoTWlkZGxld2FyZSh7IHRhcmdldFByb2plY3RDb25maWcgfSksXG4gICAgYXN5bmMgKGNvbnRleHQsIG5leHQpID0+IGNvbnNvbGUubG9nKCdsYXN0IG1pZGRsZXdhcmUgcmVhY2hlZC4nKSxcbiAgXVxuXG4gIC8vIGNyZWF0ZSBodHRwIHNlcnZlclxuICBhd2FpdCBjcmVhdGVIdHRwU2VydmVyKHsgbGFiZWw6IHNlcnZpY2VDb25maWcuc2VydmljZU5hbWUsIHBvcnQ6IHBvcnQsIG1pZGRsZXdhcmVBcnJheSB9KVxufVxuXG5leHBvcnQgKiBhcyBhcGlFbmRwb2ludCBmcm9tICcuL3NlcnZpY2UvYXBpRW5kcG9pbnQnXG4iXX0=
