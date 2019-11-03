@@ -1,4 +1,4 @@
-import { createHttpServer } from '../../utility/server.js'
+import { createHttpServer } from './utility/server.js'
 import { graphMiddleware } from './middleware/graphMiddleware.js'
 import serviceConfig from './configuration/configuration.js'
 
@@ -36,5 +36,3 @@ export async function initialize({ targetProjectConfig, port = serviceConfig.por
   // create http server
   await createHttpServer({ label: serviceConfig.serviceName, port: port, middlewareArray })
 }
-
-export * as apiEndpoint from './service/apiEndpoint'

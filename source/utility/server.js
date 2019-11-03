@@ -15,6 +15,7 @@ export async function createHttpServer({ label, port, middlewareArray }) {
           if (process.send !== undefined) process.send({ message: 'Server listening' }) // if process is a forked child process.
           process.emit('listening')
           console.log(`☕ ${label} server listening on port ${port}`)
+          resolve()
         })
         .on('connection', socket => {
           console.info('SOCKET OPENED' + JSON.stringify(socket.address()))
@@ -23,6 +24,6 @@ export async function createHttpServer({ label, port, middlewareArray }) {
           socket.on('error', error => console.info('SOCKET ERROR: ' + JSON.stringify(error)))
           socket.on('close', had_error => console.info('SOCKET CLOSED. Is ERROR ?: ' + had_error))
         })
-        .setTimeout(0, () => console.log('HTTP server connection socket was timedout (console.log in httpServer.setTimeout)!')) && resolve(),
+        .setTimeout(0, () => console.log('HTTP server connection socket was timedout (console.log in httpServer.setTimeout)!')),
   )
 }
