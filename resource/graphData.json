@@ -49,8 +49,7 @@
     "end": 9994,
     "type": "EXECUTE",
     "properties": {
-      "key": "a7f9bdbc-555a-416d-81c7-c27345302726",
-      "processDataImplementation": "immediatelyExecuteMiddleware"
+      "key": "a7f9bdbc-555a-416d-81c7-c27345302726"
     }
   }, {
     "identity": 13863,

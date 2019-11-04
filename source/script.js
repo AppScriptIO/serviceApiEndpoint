@@ -1,5 +1,5 @@
 import { createHttpServer } from './utility/server.js'
-import { graphMiddleware } from './middleware/graphMiddleware.js'
+import { graphMiddlewareImmediatelyExecuted, graphMiddlewareAggregation } from './middleware/graph.js'
 import serviceConfig from './configuration/configuration.js'
 
 /**
@@ -19,7 +19,7 @@ Api engpoint middleware graph:
 > Request body parser.
 
 /content --> apiContentMessage middleware
-/content/* --> apiSchema.middleware.js
+/content/* --> apiSchema.js
 */
 export async function initialize({ targetProjectConfig, port = serviceConfig.port }) {
   let middlewareArray = [
@@ -29,7 +29,7 @@ export async function initialize({ targetProjectConfig, port = serviceConfig.por
       await context.req.setTimeout(30000)
       await next()
     },
-    await graphMiddleware({ targetProjectConfig }),
+    await graphMiddlewareImmediatelyExecuted({ targetProjectConfig }),
     async (context, next) => console.log('last middleware reached.'),
   ]
 
