@@ -9,6 +9,7 @@
 		"buildAndRelease": "yarn run scriptManager shouldCompileScript=true @dependency/deploymentScript \".buildAndRelease.moduleProject({})\""
 	},
 	"dependencies": {
+		"@dependency/graphTraversal": "https://github.com/AppScriptIO/graphTraversal#semver:^1.x.x",
 		"koa-compose": "*",
 		"koa-router": "*"
 	},
