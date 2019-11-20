@@ -1,17 +1,9 @@
 import r from 'rethinkdb'
 import compose from 'koa-compose'
-import { handleConnection, createDatabase, createTable } from '../../../../../utility/middleware/commonDatabaseFunctionality.js'
 
-// NOTE: host/api/v1/<tableName>/<havingField>/<subfield-recursive>.json
-
-export default class RestApi {
-  constructor(urlPrefix) {
-    this.urlPrefix = urlPrefix
-  }
-
-  route() {
+// EXAMPLE: host/api/v1/<tableName>/<havingField>/<subfield-recursive>.json
+export default (urlPrefix) => {
     return compose([
-      handleConnection(),
       async (context, next) => {
         if (context.request.method != 'GET') return await next() // if not GET
         console.log('SZN - Inside GET <REST API>/*')
@@ -57,4 +49,4 @@ export default class RestApi {
       },
     ])
   }
-}
+
