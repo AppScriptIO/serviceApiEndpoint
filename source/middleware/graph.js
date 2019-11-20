@@ -1,45 +1,45 @@
-import { initializeGraph } from '../utility/graphInitialization.js'
-import * as graphData from '../../resource/graphData.json'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");var _interopRequireWildcard = require("@babel/runtime/helpers/interopRequireWildcard");Object.defineProperty(exports, "__esModule", { value: true });exports.graphMiddlewareImmediatelyExecuted = graphMiddlewareImmediatelyExecuted;exports.graphMiddlewareAggregation = graphMiddlewareAggregation;var _graphInitialization = require("../utility/graphInitialization.js");
+var graphData = _interopRequireWildcard(require("../../resource/graphData.json"));
 
-import composeMiddleware from 'koa-compose'
-import { bodyParserMiddleware } from '../middleware/bodyParser.js'
+var _koaCompose = _interopRequireDefault(require("koa-compose"));
+var _bodyParser = require("../middleware/bodyParser.js");
 
-const debugGraphMiddleware = targetMiddleware =>
-  new Proxy(targetMiddleware, {
-    apply: function(target, thisArg, argumentsList) {
-      console.log(target.name, ' Openning.')
-      let result = Reflect.apply(...arguments)
-      console.log(target.name, ' Closing.')
-      return result
-    },
-  })
+const debugGraphMiddleware = (targetMiddleware) =>
+new Proxy(targetMiddleware, {
+  apply: function (target, thisArg, argumentsList) {
+    console.log(target.name, ' Openning.');
+    let result = Reflect.apply(...arguments);
+    console.log(target.name, ' Closing.');
+    return result;
+  } });
 
-  // context that will be used by the graph traversal during execution.
+
+
 const functionReferenceContext = {
-  // middlewares
-  bodyParser: () => bodyParserMiddleware |> debugGraphMiddleware,
-  // conditions
-}
 
-export async function graphMiddlewareImmediatelyExecuted({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
-  let configuredGraph = await initializeGraph({ targetProjectConfig, graphDataArray: [graphData], functionReferenceContext})
-  // Immediately executing middlewares in graph traversal.
+  bodyParser: () => {var _bodyParserMiddleware;return _bodyParserMiddleware = _bodyParser.bodyParserMiddleware, debugGraphMiddleware(_bodyParserMiddleware);} };
+
+
+
+async function graphMiddlewareImmediatelyExecuted({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
+  let configuredGraph = await (0, _graphInitialization.initializeGraph)({ targetProjectConfig, graphDataArray: [graphData], functionReferenceContext });
+
   return async (context, next) => {
-    let graph = new configuredGraph({ data: { middlewareParameter: { context } } })
-    let middlewareArray = await graph.traverse({ nodeKey: entrypointKey, implementationKey: { processData: 'immediatelyExecuteMiddleware' } }) // implementation key is derived from the graph nodes - usally 'immediatelyExecuteMiddleware'
-    // console.log(middlewareArray) // returned middleware array is for debugging purposes. The middlewares should be executed during the graph travrsal.
-    await next()
-  }
+    let graph = new configuredGraph({ data: { middlewareParameter: { context } } });
+    let middlewareArray = await graph.traverse({ nodeKey: entrypointKey, implementationKey: { processData: 'immediatelyExecuteMiddleware' } });
+
+    await next();
+  };
 }
 
-export async function graphMiddlewareAggregation({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
-  let configuredGraph = await initializeGraph({ targetProjectConfig, graphDataArray: [graphData], functionReferenceContext})
-  // Aggregating middleware approach - return a middleware array, then use koa-compose to merge the middlewares and execute it.
+async function graphMiddlewareAggregation({ targetProjectConfig, entrypointKey = '05bd55ed-212c-4609-8caf-e464a7cceb74' }) {
+  let configuredGraph = await (0, _graphInitialization.initializeGraph)({ targetProjectConfig, graphDataArray: [graphData], functionReferenceContext });
+
   return async (context, next) => {
-    // Note: 'middlewareParameter' is not used in the graph that returns a middleware array, only in the executing graph. Some nodes may override the execution processData implementation.
-    let graph = new configuredGraph({ /*data: { middlewareParameter: { context } } */ })
-    let middlewareArray = await graph.traverse({ nodeKey: entrypointKey, implementationKey: { processData: 'executeFunctionReference' } })
-    await composeMiddleware(middlewareArray)(context, next)
-  }
-}
 
+    let graph = new configuredGraph({});
+    let middlewareArray = await graph.traverse({ nodeKey: entrypointKey, implementationKey: { processData: 'executeFunctionReference' } });
+    await (0, _koaCompose.default)(middlewareArray)(context, next);
+  };
+}
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9taWRkbGV3YXJlL2dyYXBoLmpzIl0sIm5hbWVzIjpbImRlYnVnR3JhcGhNaWRkbGV3YXJlIiwidGFyZ2V0TWlkZGxld2FyZSIsIlByb3h5IiwiYXBwbHkiLCJ0YXJnZXQiLCJ0aGlzQXJnIiwiYXJndW1lbnRzTGlzdCIsImNvbnNvbGUiLCJsb2ciLCJuYW1lIiwicmVzdWx0IiwiUmVmbGVjdCIsImFyZ3VtZW50cyIsImZ1bmN0aW9uUmVmZXJlbmNlQ29udGV4dCIsImJvZHlQYXJzZXIiLCJib2R5UGFyc2VyTWlkZGxld2FyZSIsImdyYXBoTWlkZGxld2FyZUltbWVkaWF0ZWx5RXhlY3V0ZWQiLCJ0YXJnZXRQcm9qZWN0Q29uZmlnIiwiZW50cnlwb2ludEtleSIsImNvbmZpZ3VyZWRHcmFwaCIsImdyYXBoRGF0YUFycmF5IiwiZ3JhcGhEYXRhIiwiY29udGV4dCIsIm5leHQiLCJncmFwaCIsImRhdGEiLCJtaWRkbGV3YXJlUGFyYW1ldGVyIiwibWlkZGxld2FyZUFycmF5IiwidHJhdmVyc2UiLCJub2RlS2V5IiwiaW1wbGVtZW50YXRpb25LZXkiLCJwcm9jZXNzRGF0YSIsImdyYXBoTWlkZGxld2FyZUFnZ3JlZ2F0aW9uIl0sIm1hcHBpbmdzIjoidVlBQUE7QUFDQTs7QUFFQTtBQUNBOztBQUVBLE1BQU1BLG9CQUFvQixHQUFHLENBQUFDLGdCQUFnQjtBQUMzQyxJQUFJQyxLQUFKLENBQVVELGdCQUFWLEVBQTRCO0FBQzFCRSxFQUFBQSxLQUFLLEVBQUUsVUFBU0MsTUFBVCxFQUFpQkMsT0FBakIsRUFBMEJDLGFBQTFCLEVBQXlDO0FBQzlDQyxJQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUosTUFBTSxDQUFDSyxJQUFuQixFQUF5QixZQUF6QjtBQUNBLFFBQUlDLE1BQU0sR0FBR0MsT0FBTyxDQUFDUixLQUFSLENBQWMsR0FBR1MsU0FBakIsQ0FBYjtBQUNBTCxJQUFBQSxPQUFPLENBQUNDLEdBQVIsQ0FBWUosTUFBTSxDQUFDSyxJQUFuQixFQUF5QixXQUF6QjtBQUNBLFdBQU9DLE1BQVA7QUFDRCxHQU55QixFQUE1QixDQURGOzs7O0FBV0EsTUFBTUcsd0JBQXdCLEdBQUc7O0FBRS9CQyxFQUFBQSxVQUFVLEVBQUUsZ0VBQU1DLGdDQUFOLEVBQThCZixvQkFBOUIseUJBRm1CLEVBQWpDOzs7O0FBTU8sZUFBZWdCLGtDQUFmLENBQWtELEVBQUVDLG1CQUFGLEVBQXVCQyxhQUFhLEdBQUcsc0NBQXZDLEVBQWxELEVBQW1JO0FBQ3hJLE1BQUlDLGVBQWUsR0FBRyxNQUFNLDBDQUFnQixFQUFFRixtQkFBRixFQUF1QkcsY0FBYyxFQUFFLENBQUNDLFNBQUQsQ0FBdkMsRUFBb0RSLHdCQUFwRCxFQUFoQixDQUE1Qjs7QUFFQSxTQUFPLE9BQU9TLE9BQVAsRUFBZ0JDLElBQWhCLEtBQXlCO0FBQzlCLFFBQUlDLEtBQUssR0FBRyxJQUFJTCxlQUFKLENBQW9CLEVBQUVNLElBQUksRUFBRSxFQUFFQyxtQkFBbUIsRUFBRSxFQUFFSixPQUFGLEVBQXZCLEVBQVIsRUFBcEIsQ0FBWjtBQUNBLFFBQUlLLGVBQWUsR0FBRyxNQUFNSCxLQUFLLENBQUNJLFFBQU4sQ0FBZSxFQUFFQyxPQUFPLEVBQUVYLGFBQVgsRUFBMEJZLGlCQUFpQixFQUFFLEVBQUVDLFdBQVcsRUFBRSw4QkFBZixFQUE3QyxFQUFmLENBQTVCOztBQUVBLFVBQU1SLElBQUksRUFBVjtBQUNELEdBTEQ7QUFNRDs7QUFFTSxlQUFlUywwQkFBZixDQUEwQyxFQUFFZixtQkFBRixFQUF1QkMsYUFBYSxHQUFHLHNDQUF2QyxFQUExQyxFQUEySDtBQUNoSSxNQUFJQyxlQUFlLEdBQUcsTUFBTSwwQ0FBZ0IsRUFBRUYsbUJBQUYsRUFBdUJHLGNBQWMsRUFBRSxDQUFDQyxTQUFELENBQXZDLEVBQW9EUix3QkFBcEQsRUFBaEIsQ0FBNUI7O0FBRUEsU0FBTyxPQUFPUyxPQUFQLEVBQWdCQyxJQUFoQixLQUF5Qjs7QUFFOUIsUUFBSUMsS0FBSyxHQUFHLElBQUlMLGVBQUosQ0FBb0IsRUFBcEIsQ0FBWjtBQUNBLFFBQUlRLGVBQWUsR0FBRyxNQUFNSCxLQUFLLENBQUNJLFFBQU4sQ0FBZSxFQUFFQyxPQUFPLEVBQUVYLGFBQVgsRUFBMEJZLGlCQUFpQixFQUFFLEVBQUVDLFdBQVcsRUFBRSwwQkFBZixFQUE3QyxFQUFmLENBQTVCO0FBQ0EsVUFBTSx5QkFBa0JKLGVBQWxCLEVBQW1DTCxPQUFuQyxFQUE0Q0MsSUFBNUMsQ0FBTjtBQUNELEdBTEQ7QUFNRCIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGluaXRpYWxpemVHcmFwaCB9IGZyb20gJy4uL3V0aWxpdHkvZ3JhcGhJbml0aWFsaXphdGlvbi5qcydcbmltcG9ydCAqIGFzIGdyYXBoRGF0YSBmcm9tICcuLi8uLi9yZXNvdXJjZS9ncmFwaERhdGEuanNvbidcblxuaW1wb3J0IGNvbXBvc2VNaWRkbGV3YXJlIGZyb20gJ2tvYS1jb21wb3NlJ1xuaW1wb3J0IHsgYm9keVBhcnNlck1pZGRsZXdhcmUgfSBmcm9tICcuLi9taWRkbGV3YXJlL2JvZHlQYXJzZXIuanMnXG5cbmNvbnN0IGRlYnVnR3JhcGhNaWRkbGV3YXJlID0gdGFyZ2V0TWlkZGxld2FyZSA9PlxuICBuZXcgUHJveHkodGFyZ2V0TWlkZGxld2FyZSwge1xuICAgIGFwcGx5OiBmdW5jdGlvbih0YXJnZXQsIHRoaXNBcmcsIGFyZ3VtZW50c0xpc3QpIHtcbiAgICAgIGNvbnNvbGUubG9nKHRhcmdldC5uYW1lLCAnIE9wZW5uaW5nLicpXG4gICAgICBsZXQgcmVzdWx0ID0gUmVmbGVjdC5hcHBseSguLi5hcmd1bWVudHMpXG4gICAgICBjb25zb2xlLmxvZyh0YXJnZXQubmFtZSwgJyBDbG9zaW5nLicpXG4gICAgICByZXR1cm4gcmVzdWx0XG4gICAgfSxcbiAgfSlcblxuICAvLyBjb250ZXh0IHRoYXQgd2lsbCBiZSB1c2VkIGJ5IHRoZSBncmFwaCB0cmF2ZXJzYWwgZHVyaW5nIGV4ZWN1dGlvbi5cbmNvbnN0IGZ1bmN0aW9uUmVmZXJlbmNlQ29udGV4dCA9IHtcbiAgLy8gbWlkZGxld2FyZXNcbiAgYm9keVBhcnNlcjogKCkgPT4gYm9keVBhcnNlck1pZGRsZXdhcmUgfD4gZGVidWdHcmFwaE1pZGRsZXdhcmUsXG4gIC8vIGNvbmRpdGlvbnNcbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdyYXBoTWlkZGxld2FyZUltbWVkaWF0ZWx5RXhlY3V0ZWQoeyB0YXJnZXRQcm9qZWN0Q29uZmlnLCBlbnRyeXBvaW50S2V5ID0gJzA1YmQ1NWVkLTIxMmMtNDYwOS04Y2FmLWU0NjRhN2NjZWI3NCcgfSkge1xuICBsZXQgY29uZmlndXJlZEdyYXBoID0gYXdhaXQgaW5pdGlhbGl6ZUdyYXBoKHsgdGFyZ2V0UHJvamVjdENvbmZpZywgZ3JhcGhEYXRhQXJyYXk6IFtncmFwaERhdGFdLCBmdW5jdGlvblJlZmVyZW5jZUNvbnRleHR9KVxuICAvLyBJbW1lZGlhdGVseSBleGVjdXRpbmcgbWlkZGxld2FyZXMgaW4gZ3JhcGggdHJhdmVyc2FsLlxuICByZXR1cm4gYXN5bmMgKGNvbnRleHQsIG5leHQpID0+IHtcbiAgICBsZXQgZ3JhcGggPSBuZXcgY29uZmlndXJlZEdyYXBoKHsgZGF0YTogeyBtaWRkbGV3YXJlUGFyYW1ldGVyOiB7IGNvbnRleHQgfSB9IH0pXG4gICAgbGV0IG1pZGRsZXdhcmVBcnJheSA9IGF3YWl0IGdyYXBoLnRyYXZlcnNlKHsgbm9kZUtleTogZW50cnlwb2ludEtleSwgaW1wbGVtZW50YXRpb25LZXk6IHsgcHJvY2Vzc0RhdGE6ICdpbW1lZGlhdGVseUV4ZWN1dGVNaWRkbGV3YXJlJyB9IH0pIC8vIGltcGxlbWVudGF0aW9uIGtleSBpcyBkZXJpdmVkIGZyb20gdGhlIGdyYXBoIG5vZGVzIC0gdXNhbGx5ICdpbW1lZGlhdGVseUV4ZWN1dGVNaWRkbGV3YXJlJ1xuICAgIC8vIGNvbnNvbGUubG9nKG1pZGRsZXdhcmVBcnJheSkgLy8gcmV0dXJuZWQgbWlkZGxld2FyZSBhcnJheSBpcyBmb3IgZGVidWdnaW5nIHB1cnBvc2VzLiBUaGUgbWlkZGxld2FyZXMgc2hvdWxkIGJlIGV4ZWN1dGVkIGR1cmluZyB0aGUgZ3JhcGggdHJhdnJzYWwuXG4gICAgYXdhaXQgbmV4dCgpXG4gIH1cbn1cblxuZXhwb3J0IGFzeW5jIGZ1bmN0aW9uIGdyYXBoTWlkZGxld2FyZUFnZ3JlZ2F0aW9uKHsgdGFyZ2V0UHJvamVjdENvbmZpZywgZW50cnlwb2ludEtleSA9ICcwNWJkNTVlZC0yMTJjLTQ2MDktOGNhZi1lNDY0YTdjY2ViNzQnIH0pIHtcbiAgbGV0IGNvbmZpZ3VyZWRHcmFwaCA9IGF3YWl0IGluaXRpYWxpemVHcmFwaCh7IHRhcmdldFByb2plY3RDb25maWcsIGdyYXBoRGF0YUFycmF5OiBbZ3JhcGhEYXRhXSwgZnVuY3Rpb25SZWZlcmVuY2VDb250ZXh0fSlcbiAgLy8gQWdncmVnYXRpbmcgbWlkZGxld2FyZSBhcHByb2FjaCAtIHJldHVybiBhIG1pZGRsZXdhcmUgYXJyYXksIHRoZW4gdXNlIGtvYS1jb21wb3NlIHRvIG1lcmdlIHRoZSBtaWRkbGV3YXJlcyBhbmQgZXhlY3V0ZSBpdC5cbiAgcmV0dXJuIGFzeW5jIChjb250ZXh0LCBuZXh0KSA9PiB7XG4gICAgLy8gTm90ZTogJ21pZGRsZXdhcmVQYXJhbWV0ZXInIGlzIG5vdCB1c2VkIGluIHRoZSBncmFwaCB0aGF0IHJldHVybnMgYSBtaWRkbGV3YXJlIGFycmF5LCBvbmx5IGluIHRoZSBleGVjdXRpbmcgZ3JhcGguIFNvbWUgbm9kZXMgbWF5IG92ZXJyaWRlIHRoZSBleGVjdXRpb24gcHJvY2Vzc0RhdGEgaW1wbGVtZW50YXRpb24uXG4gICAgbGV0IGdyYXBoID0gbmV3IGNvbmZpZ3VyZWRHcmFwaCh7IC8qZGF0YTogeyBtaWRkbGV3YXJlUGFyYW1ldGVyOiB7IGNvbnRleHQgfSB9ICovIH0pXG4gICAgbGV0IG1pZGRsZXdhcmVBcnJheSA9IGF3YWl0IGdyYXBoLnRyYXZlcnNlKHsgbm9kZUtleTogZW50cnlwb2ludEtleSwgaW1wbGVtZW50YXRpb25LZXk6IHsgcHJvY2Vzc0RhdGE6ICdleGVjdXRlRnVuY3Rpb25SZWZlcmVuY2UnIH0gfSlcbiAgICBhd2FpdCBjb21wb3NlTWlkZGxld2FyZShtaWRkbGV3YXJlQXJyYXkpKGNvbnRleHQsIG5leHQpXG4gIH1cbn1cblxuIl19

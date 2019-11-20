@@ -1,4 +1,4 @@
-export default {
+"use strict";Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _default = {
   serviceName: 'apiEndpoint',
-  port: 11,
-}
+  port: 11 };exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NvdXJjZS9jb25maWd1cmF0aW9uL2NvbmZpZ3VyYXRpb24uanMiXSwibmFtZXMiOlsic2VydmljZU5hbWUiLCJwb3J0Il0sIm1hcHBpbmdzIjoibUhBQWU7QUFDYkEsRUFBQUEsV0FBVyxFQUFFLGFBREE7QUFFYkMsRUFBQUEsSUFBSSxFQUFFLEVBRk8sRSIsInNvdXJjZXNDb250ZW50IjpbImV4cG9ydCBkZWZhdWx0IHtcbiAgc2VydmljZU5hbWU6ICdhcGlFbmRwb2ludCcsXG4gIHBvcnQ6IDExLFxufVxuIl19
