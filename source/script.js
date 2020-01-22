@@ -2,25 +2,6 @@ import { createHttpServer } from './utility/server.js'
 import { graphMiddlewareImmediatelyExecuted, graphMiddlewareAggregation } from './middleware/graph.js'
 import serviceConfig from './configuration/configuration.js'
 
-/**
-Schema: 
-fieldname: "personalInfo" --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'personalInfo'})
-
-fieldName: "ui" --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'ui'})
-  fieldName: 'title' --> database/resolver/extractFieldFromParentDataset.js
-
-fieldName: "article",  --> database/resolver/aggregationPatternResolver.js({databaseTabel: 'article'})
-  fieldName: 'title' --> database/resolver/extractFieldFromParentDataset.js
-  fieldName: 'paragraph' --> database/resolver/extractFieldFromParentDataset.js
-*/
-
-/**
-Api engpoint middleware graph: 
-> Request body parser.
-
-/content --> apiContentMessage middleware
-/content/* --> apiSchema.js
-*/
 export async function initialize({ targetProjectConfig, port = serviceConfig.port }) {
   let middlewareArray = [
     async (context, next) => {
