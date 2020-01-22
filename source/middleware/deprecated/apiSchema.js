@@ -1,10 +1,11 @@
-import getUrlPathAsArray from '../conditionCheck/getUrlPathAsArray.js'
+"use strict";var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _getUrlPathAsArray = _interopRequireDefault(require("../conditionCheck/getUrlPathAsArray.js"));var _default =
 
-export default async (context, next) => {
-  let schemaController = await SchemaController.createContext({ portAppInstance: context.instance })
-  let urlPathArray = await getUrlPathAsArray(context.instance)
-  let apiSchemaEntrypoint = urlPathArray.pop()
-  let data = await schemaController.initializeNestedUnit({ nestedUnitKey: apiSchemaEntrypoint })
-  context.body = data
-  await next()
-}
+async (context, next) => {
+  let schemaController = await SchemaController.createContext({ portAppInstance: context.instance });
+  let urlPathArray = await (0, _getUrlPathAsArray.default)(context.instance);
+  let apiSchemaEntrypoint = urlPathArray.pop();
+  let data = await schemaController.initializeNestedUnit({ nestedUnitKey: apiSchemaEntrypoint });
+  context.body = data;
+  await next();
+};exports.default = _default;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uL3NvdXJjZS9taWRkbGV3YXJlL2RlcHJlY2F0ZWQvYXBpU2NoZW1hLmpzIl0sIm5hbWVzIjpbImNvbnRleHQiLCJuZXh0Iiwic2NoZW1hQ29udHJvbGxlciIsIlNjaGVtYUNvbnRyb2xsZXIiLCJjcmVhdGVDb250ZXh0IiwicG9ydEFwcEluc3RhbmNlIiwiaW5zdGFuY2UiLCJ1cmxQYXRoQXJyYXkiLCJhcGlTY2hlbWFFbnRyeXBvaW50IiwicG9wIiwiZGF0YSIsImluaXRpYWxpemVOZXN0ZWRVbml0IiwibmVzdGVkVW5pdEtleSIsImJvZHkiXSwibWFwcGluZ3MiOiJ5TEFBQSxtRzs7QUFFZSxPQUFPQSxPQUFQLEVBQWdCQyxJQUFoQixLQUF5QjtBQUN0QyxNQUFJQyxnQkFBZ0IsR0FBRyxNQUFNQyxnQkFBZ0IsQ0FBQ0MsYUFBakIsQ0FBK0IsRUFBRUMsZUFBZSxFQUFFTCxPQUFPLENBQUNNLFFBQTNCLEVBQS9CLENBQTdCO0FBQ0EsTUFBSUMsWUFBWSxHQUFHLE1BQU0sZ0NBQWtCUCxPQUFPLENBQUNNLFFBQTFCLENBQXpCO0FBQ0EsTUFBSUUsbUJBQW1CLEdBQUdELFlBQVksQ0FBQ0UsR0FBYixFQUExQjtBQUNBLE1BQUlDLElBQUksR0FBRyxNQUFNUixnQkFBZ0IsQ0FBQ1Msb0JBQWpCLENBQXNDLEVBQUVDLGFBQWEsRUFBRUosbUJBQWpCLEVBQXRDLENBQWpCO0FBQ0FSLEVBQUFBLE9BQU8sQ0FBQ2EsSUFBUixHQUFlSCxJQUFmO0FBQ0EsUUFBTVQsSUFBSSxFQUFWO0FBQ0QsQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBnZXRVcmxQYXRoQXNBcnJheSBmcm9tICcuLi9jb25kaXRpb25DaGVjay9nZXRVcmxQYXRoQXNBcnJheS5qcydcblxuZXhwb3J0IGRlZmF1bHQgYXN5bmMgKGNvbnRleHQsIG5leHQpID0+IHtcbiAgbGV0IHNjaGVtYUNvbnRyb2xsZXIgPSBhd2FpdCBTY2hlbWFDb250cm9sbGVyLmNyZWF0ZUNvbnRleHQoeyBwb3J0QXBwSW5zdGFuY2U6IGNvbnRleHQuaW5zdGFuY2UgfSlcbiAgbGV0IHVybFBhdGhBcnJheSA9IGF3YWl0IGdldFVybFBhdGhBc0FycmF5KGNvbnRleHQuaW5zdGFuY2UpXG4gIGxldCBhcGlTY2hlbWFFbnRyeXBvaW50ID0gdXJsUGF0aEFycmF5LnBvcCgpXG4gIGxldCBkYXRhID0gYXdhaXQgc2NoZW1hQ29udHJvbGxlci5pbml0aWFsaXplTmVzdGVkVW5pdCh7IG5lc3RlZFVuaXRLZXk6IGFwaVNjaGVtYUVudHJ5cG9pbnQgfSlcbiAgY29udGV4dC5ib2R5ID0gZGF0YVxuICBhd2FpdCBuZXh0KClcbn1cbiJdfQ==
